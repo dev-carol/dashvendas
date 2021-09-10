@@ -4,9 +4,9 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        <p>
-       Teste
-        </p>
+        <h1 className = "text-secondary">
+       Ds Vendas
+        </h1>
       
       </header>
     </div>
