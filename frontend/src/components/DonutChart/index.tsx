@@ -11,7 +11,7 @@ const DonutChart = () => {
             show: true
         }
     }
-    return (
+    return (  
         <Chart
             options={{ ...options, labels: mockData.labels}}
             series ={mockData.series}
