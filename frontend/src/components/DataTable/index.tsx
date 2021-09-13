@@ -1,4 +1,21 @@
+import axios from 'axios';
+import { useState, useEffect} from 'react';
+import { BASE_URL } from 'utils/requests';
+import { formatLocalDate } from 'utils/format';
 const DataTable = () => {
+
+    const[page, setPage] = useState <SalePage>({
+        first: true,
+        number: 0,
+        totalElements: 0,
+    });
+
+    useEffect (() => {
+    axios.get(`${BASE_URL}/sales?page=0&size=20&sort=date,desc`)
+    .then(Response =>{
+        setPage(response.data);
+    });
+    }, []);
     return (
         <div className="table-responsive">
         <table className="table table-striped table-sm">
@@ -12,44 +29,16 @@ const DataTable = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>25/04/2021</td>
-                    <td>Analise Nakamura</td>
-                    <td>50</td>
-                    <td>42</td>
-                    <td>15658.00</td>
-                </tr>
-                <tr>
-                    <td>22/04/2021</td>
-                    <td>Manson sheen </td>
-                    <td>20</td>
-                    <td>12</td>
-                    <td>150.00</td>
-                </tr>
-                <tr>
-                    <td>15/04/2021</td>
-                    <td>Bryan Cooper</td>
-                    <td>60</td>
-                    <td>58</td>
-                    <td>1952017.00</td>
-                </tr>
-                <tr>
-                    <td>05/04/2021</td>
-                    <td>Thays Allen</td>
-                    <td>10</td>
-                    <td>5</td>
-                    <td>100.00</td>
-                </tr>
-                <tr>
-                    <td>29/04/2021</td>
-                    <td>Charlie Harper </td>
-                    <td>46</td>
-                    <td>48</td>
-                    <td>3000.00</td>
-                </tr>
-
-                
-            </tbody>
+                { page.content?.map(item => (
+                     <tr key ={item.id}>
+                     <td>{formatLocalDate(item.data, "dd/MM/yyyy")</td>
+                     <td>{item.seller.name}</td>
+                     <td>{item.visited}</td>
+                     <td>{item.deals}</td>
+                     <td>{item.amount.toFixed(2)}</td>
+                 </tr>}
+                ))}
+                </tbody>
         </table>
     </div>
     );
